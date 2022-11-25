@@ -28,6 +28,11 @@ class Bot(Client):
         os.makedirs(Config.DOWNLOAD_LOCATION)
       banned_users = await db.get_banned_users()
       Config.BANNED_USERS = banned_users
+      app = web.AppRunner(await web_server())
+      await app.setup()
+      bind_address = "0.0.0.0"
+      await web.TCPSite(app, bind_address, Config.PORT).start()
+      #logging.info(f"{me.first_name} ✅✅ BOT started successfully ✅✅")
       logging.info(f"{self.me.first_name} is Successfully started")
    
    async def stop(self):
